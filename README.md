@@ -4,9 +4,9 @@
 ### Instructions to Run Solution
 
 1. Install Dependencies via Requirements folder (**build and populate requirements folder**)
-2. Create cars.db by importing entirety of cars.csv into sqlite3
-4. Run all cells of Jupyter Notebook (daniels_ugroup_coding_answers)
-5. Run API Script (cars_api.py)
+2. Create cars.db by importing entirety of cars.csv into a sqlite3 database named 'cars.db'.
+4. Run all cells of Jupyter Notebook ('DANIELS_data_engineering_answers.ipynb')
+5. Run API Script ('cars_api.py')
 6. Open following endpoints to access data:
     - http://127.0.0.1:5000/
     - http://127.0.0.1:5000/stores/
