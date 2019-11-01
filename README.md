@@ -23,7 +23,7 @@
 
 - Importing only one column at a time when using sqlite3 .import **SOLVED**
 
-- Fact Table imports of foreign keys resulted in gross errors in data as well as Null/NaN values in ID columns.
+- Fact Table imports of foreign keys resulted in gross errors in data as well as Null/NaN values in ID columns.**SOLVED**
     
     - Tried recreating Fact Table in SQLite Studio as well as manually through terminal with same results.
     
@@ -32,6 +32,10 @@
     - Used Studio to create autoincrement ID Columns in Dimension Tables **SOLVED**
     
     - Still won't import into Fact Table correctly
+    
+    ***Rebuilt all tables in Jupyter Notebook using Pandas and exported into sqlite3***
+
+
 
 ### Attempted Features and Solutions
 - Began utilizing SQLite Studio to make rapid modifications to database structure.
@@ -50,3 +54,13 @@
 
 - Creating Master Notebook for feature engineering in pandas with python. Will export resultant dataframes to sqlite. Just want to get something working quickly even if it is not pretty (ie perfectly balanced between ease of queries and normalization).
 
+- Stepping through api creation tutorials to access database.
+
+### List of Dependencies
+- sqlite3
+- pandas
+- flask
+- flask-restful
+- flask-sqlalchemy
+- flask-marshmallow
+- marshmallow-sqlalchemy
