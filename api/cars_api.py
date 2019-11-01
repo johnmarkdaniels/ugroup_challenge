@@ -1,86 +1,120 @@
 from flask import Flask, request, jsonify
-from flask_sqlalchemy import SQLAlchemy
+# from flask_sqlalchemy import SQLAlchemy
 from flask_marshmallow import Marshmallow
 import os
 
-app = Flask(__name__)
-basedir = os.path.abspath(os.path.dirname(__file__))
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(basedir, 'crud.sqlite')
-db = SQLAlchemy(app)
-ma = Marshmallow(app)
+import sqlite3
+from flask import g
+
+DATABASE = '/cars.db'
+
+def get_db():
+    db = getattr(g, '_database', None)
+    if db is None:
+        db = g._database = sqlite3.connect(DATABASE)
+    return db
+
+def query_db(query, args=(), one=False):
+    cur = get_db().execute(query, args)
+    rv = cur.fetchall()
+    cur.close()
+    return (rv[0] if rv else None) if one else rv
+
+# def index():
+#     print('index function')
+#     cur = get_db().cursor()
+
+def test_func():
+    print('Hello, I am confirming this works')
+
+@app.route('/')
+def index():
+    cur = get_db().cursor()
+
+@app.teardown_appcontext
+def close_connection(exception):
+    db = getattr(g, '_database', None)
+    if db is not None:
+        db.close()
+
+  
+################################################################
+### SQLAlchemy VERSION
+
+# app = Flask(__name__)
+# basedir = os.path.abspath(os.path.dirname(__file__))
+# app.config['SQLITE_DATABASE_URI'] = 'sqlite:///' + os.path.join(basedir, 'cars.db')
+# app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+# db = SQLAlchemy(app)
+# ma = Marshmallow(app)
 
 
-class User(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(80), unique=True)
-    email = db.Column(db.String(120), unique=True)
+# class store(db.Model):
+#     store = db.Column(db.String(80), primary_key=True)
+#     store_id = db.Column(db.String(120), unique=True)
 
-    def __init__(self, username, email):
-        self.username = username
-        self.email = email
-
-
-class UserSchema(ma.Schema):
-    class Meta:
-        # Fields to expose
-        fields = ('username', 'email')
+#     def __init__(self, store, store_id):
+#         self.store = store
+#         self.store_id = store_id
 
 
-user_schema = UserSchema()
-users_schema = UserSchema(many=True)
+# class StoreSchema(ma.Schema):
+#     class Meta:
+#         # Fields to expose
+#         fields = ('Store', 'Store_ID')
 
 
-# endpoint to create new user
-@app.route("/user", methods=["POST"])
-def add_user():
-    username = request.json['username']
-    email = request.json['email']
-    
-    new_user = User(username, email)
+# store_schema = StoreSchema()
+# store_schemas = StoreSchema(many=True)
+################################################################
 
-    db.session.add(new_user)
-    db.session.commit()
+# endpoint to create new store
 
-    return jsonify(new_user)
+# endpoint to read store(s)
 
+# SQLite VERSION
+@app.route('/stores/')
+def test_func():
+    print('Hello, I am confirming this works')
 
-# endpoint to show all users
-@app.route("/user", methods=["GET"])
-def get_user():
-    all_users = User.query.all()
-    result = users_schema.dump(all_users)
-    return jsonify(result.data)
+test_func()
+
+# for store in query_db('select * from Stores_Table limit 5'):
+#     print store['Store'], 'has the Store_ID', store['Store_ID']
 
 
-# endpoint to get user detail by id
-@app.route("/user/<id>", methods=["GET"])
-def user_detail(id):
-    user = User.query.get(id)
-    return user_schema.jsonify(user)
+###############################
+# SQLAlchemy VERSION
+# # @app.route("/store", methods=["GET"])
+# def get_store():
+#     all_stores = store.query.all()
+#     result = store_schema.dump(all_stores)
+#     return jsonify(result.data)
+################################
+
+# endpoint to update store(s)
+
+# endpoint to delete store(s)
 
 
-# endpoint to update user
-@app.route("/user/<id>", methods=["PUT"])
-def user_update(id):
-    user = User.query.get(id)
-    username = request.json['username']
-    email = request.json['email']
 
-    user.email = email
-    user.username = username
+# endpoint to create new VIN
 
-    db.session.commit()
-    return user_schema.jsonify(user)
+# endpoint to read VIN(s)
+
+# endpoint to update VIN(s)
+
+# endpoint to delete VIN(s)
 
 
-# endpoint to delete user
-@app.route("/user/<id>", methods=["DELETE"])
-def user_delete(id):
-    user = User.query.get(id)
-    db.session.delete(user)
-    db.session.commit()
 
-    return user_schema.jsonify(user)
+# endpoint to create new transaction
+
+# endpoint to read transaction(s)
+
+# endpoint to update transaction(s)
+
+# endpoint to delete transaction(s)
 
 
 if __name__ == '__main__':
