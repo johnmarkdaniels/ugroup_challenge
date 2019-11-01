@@ -3,8 +3,23 @@
 
 ### Instructions to Run Solution
 
+1. Install Dependencies via Requirements folder (**build and populate requirements folder**)
+2. Create cars.db by importing entirety of cars.csv into sqlite3
+4. Run all cells of Jupyter Notebook (daniels_ugroup_coding_answers)
+5. Run API Script (cars_api.py)
+6. Open following endpoints to access data:
+    - http://127.0.0.1:5000/
+    - http://127.0.0.1:5000/stores/
+    - http://127.0.0.1:5000/vins/
+    - http://127.0.0.1:5000/transactions/
+
 ### Components of the Solution
 
+#### Database
+The database is built using sqlite3. Opening the file in a text editor and in Numbers revealed some column mismatches and one row with faulty data cells. Once this was cleaned, the cleaned csv file was imported into a sqlite3 database table named Sales. From here, a jupyter notebook was employed to manipulate normalise the tables and conduct feature engineering using python and the pandas library. Once the database structure was set, the new tables were exported to cars.db via a dataframe to sqlite3 conversion.
+
+#### API
+The API was constructed in python using flask. Python comments were utilized to construct an outline of the endpoints needed to provide the functionality requested in the challenge document. CRUD functionality for particular data points is planned once a working API endpoint is confirmed.
 
 ### Challenges and Blockers
 - MacOS Catalina update was causing issues in setting up virtual environments **SOLVED source activate ugroup_challenge**
@@ -36,6 +51,8 @@
     ***Rebuilt all tables in Jupyter Notebook using Pandas and exported into sqlite3***
 
 - SQLAlchemy part of cars_api isn't connecting to database correctly
+
+- Reverted back to sqlite3 and basic Flask
 
 ### Attempted Features and Solutions
 - Began utilizing SQLite Studio to make rapid modifications to database structure.
@@ -70,3 +87,19 @@
 - flask-sqlalchemy
 - flask-marshmallow
 - marshmallow-sqlalchemy
+
+## Areas for Improvement
+
+1. Balance databae normalization and ease of query by snowflaking some tables to minimize overhead while preserving ease of use, scalability, and functionality.
+2. Create aggregation features in pandas and export to database.
+3. Incorporate aggregation features into API endpoints
+4. Create additional filter features in the API:
+    - Price
+    - Inventory by Store Location
+    - Average and median purchase prices per store
+    - Metric capturing VIN churn (some VIN's were bought and sold more than once)
+    - Sorted lists of most commonly sold vehicles (make and model) and vehicle types
+    - Metric capturing profitability 
+5. Create a script to automatically generate report of monthly sales by store.
+6. Incorporate DateTime features into data collection efforts.
+7. Create pipelines to automate the capture, cleaning, and processing of data into the database.
