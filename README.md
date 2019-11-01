@@ -35,7 +35,7 @@
     
     ***Rebuilt all tables in Jupyter Notebook using Pandas and exported into sqlite3***
 
-
+- SQLAlchemy part of cars_api isn't connecting to database correctly
 
 ### Attempted Features and Solutions
 - Began utilizing SQLite Studio to make rapid modifications to database structure.
@@ -56,7 +56,13 @@
 
 - Stepping through api creation tutorials to access database.
 
+- Attempted various fixes for sqlaclchemy
+
+- Tried using sqlite3 instead of sqlalchemy
+
 ### List of Dependencies
+- python3
+- jupyter notebook
 - sqlite3
 - pandas
 - flask
